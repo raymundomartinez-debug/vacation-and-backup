@@ -52,6 +52,7 @@
                     <div>
                         <h1 class="font-bold text-lg text-slate-900 leading-tight">Vacation & Backup</h1>
                         <p class="text-xs text-slate-500">Team Overview • BR / MX / LATAM (Mon-Fri)</p>
+                        <p id="dataStatus" class="text-[10px] font-medium text-slate-400 mt-0.5">Connecting...</p>
                     </div>
                 </div>
 
@@ -65,16 +66,11 @@
                             <i data-lucide="more-vertical" class="w-5 h-5"></i>
                         </button>
                         <div id="dataMenu" class="hidden absolute right-0 top-12 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
+                            <button onclick="refreshData()" class="w-full text-left px-4 py-2.5 text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                                <i data-lucide="refresh-cw" class="w-4 h-4 text-slate-400"></i> Refresh data
+                            </button>
                             <button onclick="exportData()" class="w-full text-left px-4 py-2.5 text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                                 <i data-lucide="download" class="w-4 h-4 text-slate-400"></i> Export JSON
-                            </button>
-                            <button onclick="triggerImport()" class="w-full text-left px-4 py-2.5 text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                                <i data-lucide="upload" class="w-4 h-4 text-slate-400"></i> Import JSON
-                            </button>
-                            <input type="file" id="importFile" accept=".json" class="hidden" onchange="importData(event)">
-                            <hr class="my-1 border-slate-100">
-                            <button onclick="resetDataToDemo()" class="w-full text-left px-4 py-2.5 text-rose-600 hover:bg-rose-50 flex items-center gap-2">
-                                <i data-lucide="rotate-ccw" class="w-4 h-4 text-rose-400"></i> Reset Demo Data
                             </button>
                         </div>
                     </div>
@@ -286,7 +282,9 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Employee <span class="text-rose-500">*</span></label>
-                        <input type="text" id="collaboratorName" required placeholder="e.g., Ana Martinez" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        <select id="collaboratorName" required onchange="updateEmployeeOu()" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white">
+                            <option value="">Select employee</option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Reason <span class="text-rose-500">*</span></label>
@@ -311,27 +309,19 @@
                     </div>
                 </div>
 
-                <!-- OUs Selection -->
+                <!-- OU -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Affected OUs <span class="text-rose-500">*</span></label>
-                    <div class="flex gap-4 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-                        <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 font-medium cursor-pointer">
-                            <input type="checkbox" name="ous" value="BR" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500"> BR (Brazil)
-                        </label>
-                        <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 font-medium cursor-pointer">
-                            <input type="checkbox" name="ous" value="MX" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500"> MX (Mexico)
-                        </label>
-                        <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 font-medium cursor-pointer">
-                            <input type="checkbox" name="ous" value="LATAM" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500"> LATAM
-                        </label>
-                    </div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">OU</label>
+                    <input type="text" id="collaboratorOu" readonly placeholder="Automatically assigned from Team" class="w-full text-xs px-3 py-2 border border-slate-200 rounded-xl bg-slate-50 text-slate-600 font-semibold">
+                    <p class="text-[10px] text-slate-400 mt-1">The OU is automatically assigned based on the selected employee.</p>
                 </div>
 
                 <!-- Backups Selection -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Assigned Backup(s)</label>
-                    <input type="text" id="backupsInput" placeholder="e.g., Carlos Ruiz, Mariana Lima (Comma separated)" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
-                    <p class="text-[10px] text-slate-400 mt-1">Separate multiple names with commas.</p>
+                    <select id="backupsInput" multiple size="4" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white">
+                    </select>
+                    <p class="text-[10px] text-slate-400 mt-1">Select one or more team members. Hold Ctrl/Cmd to select multiple.</p>
                 </div>
 
                 <!-- Notes -->
@@ -391,7 +381,7 @@
     </div>
 
     <script>
-        const STORAGE_KEY = 'team_vacation_tracker_app_v3_en';
+        const API_URL = 'https://script.google.com/a/macros/elogia.net/s/AKfycbxgDfekDFg3P9XR7m27b1Izh1BUL7H7W4jtgWWxIAxoKvvpjJRDFi-LcVVQfV57wYaq5A/exec';
 
         const REASON_STYLES = {
            'Vacation': { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-300' },
@@ -407,91 +397,193 @@
             'LATAM': 'bg-sky-100 text-sky-800 border-sky-300'
         };
 
-        function getOffsetDate(days) {
-            const d = new Date();
-            d.setDate(d.getDate() + days);
-            return d.toISOString().split('T')[0];
-        }
-
-        const DEMO_DATA = [
-            {
-                id: 'abs-101',
-                name: 'Carlos Mendoza',
-                reason: 'Vacation',
-                startDate: getOffsetDate(-1),
-                endDate: getOffsetDate(4),
-                ous: ['MX', 'LATAM'],
-                backups: ['Lucia Fernandez', 'Mateo Silva'],
-                notes: 'Critical tasks handed over to Lucia. I will have no email access.'
-            },
-            {
-                id: 'abs-102',
-                name: 'Beatriz Souza',
-                reason: 'Personal Day',
-                startDate: getOffsetDate(1),
-                endDate: getOffsetDate(1),
-                ous: ['BR'],
-                backups: ['Thiago Santos'],
-                notes: 'Family personal errands.'
-            },
-            {
-                id: 'abs-103',
-                name: 'Gabriel Gomez',
-                reason: 'Vacation',
-                startDate: getOffsetDate(0),
-                endDate: getOffsetDate(5),
-                ous: ['BR', 'MX'],
-                backups: ['Carlos Mendoza'],
-                notes: 'Mid-year annual vacation.'
-            },
-            {
-                id: 'abs-104',
-                name: 'Mariana Reyes',
-                reason: 'Medical Leave',
-                startDate: getOffsetDate(-2),
-                endDate: getOffsetDate(0),
-                ous: ['LATAM'],
-                backups: ['Ana Torres'],
-                notes: 'Medical rest justification attached.'
-            }
-        ];
-
         let absences = [];
+        let teamMembers = [];
         let currentOuFilter = 'ALL';
         let activeTab = 'weekly';
         let currentWeekStartDate = getMonday(new Date());
         let currentMonthDate = new Date();
+        let isSaving = false;
 
-        function initApp() {
-            loadAbsences();
+        function getLocalDateString(date = new Date()) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getOffsetDate(days) {
+            const d = new Date();
+            d.setDate(d.getDate() + days);
+            return getLocalDateString(d);
+        }
+
+        function setDataStatus(message, type = 'default') {
+            const el = document.getElementById('dataStatus');
+            if (!el) return;
+            el.textContent = message;
+            el.className = 'text-[10px] font-medium ' +
+                (type === 'error' ? 'text-rose-600' :
+                 type === 'success' ? 'text-emerald-600' : 'text-slate-400');
+        }
+
+        function isActiveTeamMember(member) {
+            return member && (
+                member.Activo === true ||
+                String(member.Activo).toLowerCase() === 'true'
+            );
+        }
+
+        function isActiveVacation(item) {
+            return String(item.Status || '').toLowerCase() !== 'cancelled';
+        }
+
+        function normalizeVacation(item) {
+            return {
+                id: String(item.ID || ''),
+                name: String(item.Nombre || ''),
+                reason: String(item.Motivo || 'Other'),
+                startDate: String(item['Fecha inicio'] || ''),
+                endDate: String(item['Fecha fin'] || ''),
+                ous: item.OU ? [String(item.OU)] : [],
+                backups: String(item.Backup || '')
+                    .split(',')
+                    .map(value => value.trim())
+                    .filter(Boolean),
+                notes: String(item.Comentarios || ''),
+                registrationDate: String(item['Fecha registro'] || ''),
+                status: String(item.Status || 'Active')
+            };
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function populateEmployeeOptions(selectedName = '') {
+            const select = document.getElementById('collaboratorName');
+            if (!select) return;
+
+            select.innerHTML = '<option value="">Select employee</option>' +
+                teamMembers.map(member => {
+                    const name = String(member.Nombre || '');
+                    return `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`;
+                }).join('');
+
+            select.value = selectedName || '';
+            updateEmployeeOu(false);
+        }
+
+        function populateBackupOptions(selectedEmployee = '', selectedBackups = []) {
+            const select = document.getElementById('backupsInput');
+            if (!select) return;
+
+            const selected = new Set(selectedBackups || []);
+
+            select.innerHTML = teamMembers.map(member => {
+                const name = String(member.Nombre || '');
+                const isEmployee = name === selectedEmployee;
+                const isSelected = selected.has(name);
+
+                return `<option value="${escapeHtml(name)}" ${isSelected ? 'selected' : ''} ${isEmployee ? 'disabled' : ''}>${escapeHtml(name)}${isEmployee ? ' (employee)' : ''}</option>`;
+            }).join('');
+        }
+
+        function updateEmployeeOu(refreshBackups = true) {
+            const employeeSelect = document.getElementById('collaboratorName');
+            const ouInput = document.getElementById('collaboratorOu');
+            const selected = teamMembers.find(member =>
+                String(member.Nombre || '') === String(employeeSelect?.value || '')
+            );
+
+            if (ouInput) {
+                ouInput.value = selected ? String(selected.OU || '') : '';
+            }
+
+            if (refreshBackups) {
+                const selectedBackups = Array.from(document.getElementById('backupsInput')?.selectedOptions || [])
+                    .map(option => option.value);
+                populateBackupOptions(employeeSelect?.value || '', selectedBackups);
+            }
+        }
+
+        async function initApp() {
+            lucide.createIcons();
+            await loadAbsences();
             renderAllViews();
             lucide.createIcons();
         }
 
-        function loadAbsences() {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                try {
-                    absences = JSON.parse(saved);
-                } catch (e) {
-                    absences = [...DEMO_DATA];
+        async function loadAbsences() {
+            setDataStatus('Syncing with team database...');
+
+            try {
+                const response = await fetch(API_URL);
+
+                if (!response.ok) {
+                    throw new Error(`API returned ${response.status}`);
                 }
-            } else {
-                absences = [...DEMO_DATA];
-                saveToStorage();
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.message || 'Could not load dashboard data.');
+                }
+
+                teamMembers = Array.isArray(data.team)
+                    ? data.team.filter(isActiveTeamMember)
+                    : [];
+
+                absences = Array.isArray(data.vacations)
+                    ? data.vacations.filter(isActiveVacation).map(normalizeVacation)
+                    : [];
+
+                populateEmployeeOptions();
+                populateBackupOptions();
+
+                setDataStatus(`Connected • ${teamMembers.length} active team member(s)`, 'success');
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                absences = [];
+                teamMembers = [];
+                populateEmployeeOptions();
+                populateBackupOptions();
+                setDataStatus('Could not connect to the team database', 'error');
+                alert('Could not load the vacation data from Google Sheets. Please check the dashboard connection or contact the administrator.');
             }
         }
 
-        function saveToStorage() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(absences));
+        async function refreshData() {
+            await loadAbsences();
+            renderAllViews();
+            lucide.createIcons();
         }
 
-        function resetDataToDemo() {
-            if (confirm('Restore initial demo data? Current records will be replaced.')) {
-                absences = [...DEMO_DATA];
-                saveToStorage();
-                renderAllViews();
+        async function postToApi(payload) {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API returned ${response.status}`);
             }
+
+            const result = await response.json();
+
+            if (!result.success) {
+                throw new Error(result.message || 'The operation could not be completed.');
+            }
+
+            return result;
         }
 
         function getMonday(d) {
@@ -854,6 +946,9 @@
             const form = document.getElementById('absenceForm');
             form.reset();
 
+            populateEmployeeOptions();
+            populateBackupOptions();
+
             if (editId) {
                 const item = absences.find(a => a.id === editId);
                 if (item) {
@@ -863,17 +958,14 @@
                     document.getElementById('absenceReason').value = item.reason;
                     document.getElementById('startDate').value = item.startDate;
                     document.getElementById('endDate').value = item.endDate;
-                    document.getElementById('backupsInput').value = item.backups.join(', ');
+                    document.getElementById('collaboratorOu').value = item.ous[0] || '';
+                    populateBackupOptions(item.name, item.backups);
                     document.getElementById('absenceNotes').value = item.notes || '';
-
-                    document.querySelectorAll('input[name="ous"]').forEach(cb => {
-                        cb.checked = item.ous.includes(cb.value);
-                    });
                 }
             } else {
                 document.getElementById('modalTitle').innerHTML = `<i data-lucide="calendar-plus" class="w-5 h-5 text-sky-600"></i> Register Absence or Vacation`;
                 document.getElementById('absenceId').value = '';
-                const today = new Date().toISOString().split('T')[0];
+                const today = getLocalDateString();
                 document.getElementById('startDate').value = today;
                 document.getElementById('endDate').value = today;
             }
@@ -886,42 +978,95 @@
             document.getElementById('absenceModal').classList.add('hidden');
         }
 
-        function saveAbsence(event) {
+        async function saveAbsence(event) {
             event.preventDefault();
 
-            const id = document.getElementById('absenceId').value || 'abs-' + Date.now();
-            const name = document.getElementById('collaboratorName').value.trim();
+            if (isSaving) return;
+
+            const id = document.getElementById('absenceId').value;
+            const name = document.getElementById('collaboratorName').value;
             const reason = document.getElementById('absenceReason').value;
             const startDate = document.getElementById('startDate').value;
             const endDate = document.getElementById('endDate').value;
+            const ou = document.getElementById('collaboratorOu').value;
             const notes = document.getElementById('absenceNotes').value.trim();
+            const backups = Array.from(document.getElementById('backupsInput').selectedOptions)
+                .map(option => option.value)
+                .filter(Boolean);
+
+            if (!name) {
+                alert('Please select an employee.');
+                return;
+            }
+
+            if (!ou) {
+                alert('The selected employee does not have an assigned OU in the Team tab.');
+                return;
+            }
+
+            if (!startDate || !endDate) {
+                alert('Please select both start and end dates.');
+                return;
+            }
 
             if (startDate > endDate) {
                 alert('End date cannot be earlier than start date.');
                 return;
             }
 
-            const selectedOus = Array.from(document.querySelectorAll('input[name="ous"]:checked')).map(cb => cb.value);
-            if (selectedOus.length === 0) {
-                alert('Please select at least one affected OU (BR, MX, or LATAM).');
+            const employee = teamMembers.find(member => String(member.Nombre || '') === name);
+            if (!employee) {
+                alert('The selected employee is not available in the active Team list.');
                 return;
             }
 
-            const backupsRaw = document.getElementById('backupsInput').value;
-            const backups = backupsRaw.split(',').map(b => b.trim()).filter(b => b.length > 0);
+            const payload = {
+                action: id ? 'update' : 'create',
+                ...(id ? { id } : {}),
+                nombre: name,
+                ou: String(employee.OU || ''),
+                motivo: reason,
+                fechaInicio: startDate,
+                fechaFin: endDate,
+                backup: backups,
+                comentarios: notes
+            };
 
-            const record = { id, name, reason, startDate, endDate, ous: selectedOus, backups, notes };
+            const submitButton = document.querySelector('#absenceForm button[type="submit"]');
+            const originalText = submitButton ? submitButton.textContent : 'Save Record';
 
-            const index = absences.findIndex(a => a.id === id);
-            if (index >= 0) {
-                absences[index] = record;
-            } else {
-                absences.push(record);
+            try {
+                isSaving = true;
+
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.textContent = id ? 'Updating...' : 'Saving...';
+                    submitButton.classList.add('opacity-70', 'cursor-not-allowed');
+                }
+
+                setDataStatus(id ? 'Updating record...' : 'Saving record...');
+
+                await postToApi(payload);
+                await loadAbsences();
+
+                closeModal();
+                renderAllViews();
+                lucide.createIcons();
+
+                setDataStatus('Connected • data up to date', 'success');
+            } catch (error) {
+                console.error('Error saving absence:', error);
+                setDataStatus('Save failed', 'error');
+                alert(`Could not save the record. ${error.message}`);
+            } finally {
+                isSaving = false;
+
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
+                    submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
+                }
             }
-
-            saveToStorage();
-            closeModal();
-            renderAllViews();
         }
 
         function editAbsence(id) {
@@ -929,12 +1074,30 @@
             openModal(id);
         }
 
-        function deleteAbsence(id) {
-            if (confirm('Delete this absence record?')) {
-                absences = absences.filter(a => a.id !== id);
-                saveToStorage();
+        async function deleteAbsence(id) {
+            const item = absences.find(a => a.id === id);
+            if (!item) return;
+
+            if (!confirm(`Cancel the absence record for ${item.name}?`)) return;
+
+            try {
+                setDataStatus('Cancelling record...');
+
+                await postToApi({
+                    action: 'cancel',
+                    id: id
+                });
+
+                await loadAbsences();
                 closeDetailsModal();
                 renderAllViews();
+                lucide.createIcons();
+
+                setDataStatus('Connected • data up to date', 'success');
+            } catch (error) {
+                console.error('Error cancelling absence:', error);
+                setDataStatus('Cancel failed', 'error');
+                alert(`Could not cancel the record. ${error.message}`);
             }
         }
 
@@ -984,37 +1147,10 @@
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(absences, null, 2));
             const dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", `team_vacation_data_${new Date().toISOString().split('T')[0]}.json`);
+            dlAnchor.setAttribute("download", `team_vacation_data_${getLocalDateString()}.json`);
             document.body.appendChild(dlAnchor);
             dlAnchor.click();
             dlAnchor.remove();
-        }
-
-        function triggerImport() {
-            document.getElementById('importFile').click();
-        }
-
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (Array.isArray(imported)) {
-                        absences = imported;
-                        saveToStorage();
-                        renderAllViews();
-                        alert('Data imported successfully!');
-                    } else {
-                        alert('Invalid JSON structure.');
-                    }
-                } catch (err) {
-                    alert('Error parsing JSON file.');
-                }
-            };
-            reader.readAsText(file);
         }
 
         window.onload = function() {
