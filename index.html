@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-50">
+<html lang="en" class="h-full bg-slate-50">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacation and Backup Manager</title>
+    <title>Team Vacation & Absence Tracker</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -50,15 +50,15 @@
                         <i data-lucide="plane" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h1 class="font-bold text-lg text-slate-900 leading-tight">Gestor de Vacaciones & Ausencias</h1>
-                        <p class="text-xs text-slate-500">Overview del Equipo • BR / MX / LATAM</p>
+                        <h1 class="font-bold text-lg text-slate-900 leading-tight">Team Vacation & Absence Tracker</h1>
+                        <p class="text-xs text-slate-500">Team Overview • BR / MX / LATAM (Mon-Fri)</p>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-3">
                     <button onclick="openModal()" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors shadow-sm focus:ring-2 focus:ring-sky-500">
                         <i data-lucide="plus" class="w-4 h-4"></i>
-                        <span>Registrar Ausencia</span>
+                        <span>Register Absence</span>
                     </button>
                     <div class="relative">
                         <button onclick="toggleDataMenu()" id="dataMenuBtn" class="p-2.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors">
@@ -66,15 +66,15 @@
                         </button>
                         <div id="dataMenu" class="hidden absolute right-0 top-12 w-52 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 text-xs">
                             <button onclick="exportData()" class="w-full text-left px-4 py-2.5 text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                                <i data-lucide="download" class="w-4 h-4 text-slate-400"></i> Exportar JSON
+                                <i data-lucide="download" class="w-4 h-4 text-slate-400"></i> Export JSON
                             </button>
                             <button onclick="triggerImport()" class="w-full text-left px-4 py-2.5 text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                                <i data-lucide="upload" class="w-4 h-4 text-slate-400"></i> Importar JSON
+                                <i data-lucide="upload" class="w-4 h-4 text-slate-400"></i> Import JSON
                             </button>
                             <input type="file" id="importFile" accept=".json" class="hidden" onchange="importData(event)">
                             <hr class="my-1 border-slate-100">
                             <button onclick="resetDataToDemo()" class="w-full text-left px-4 py-2.5 text-rose-600 hover:bg-rose-50 flex items-center gap-2">
-                                <i data-lucide="rotate-ccw" class="w-4 h-4 text-rose-400"></i> Restaurar Demo
+                                <i data-lucide="rotate-ccw" class="w-4 h-4 text-rose-400"></i> Reset Demo Data
                             </button>
                         </div>
                     </div>
@@ -89,9 +89,9 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Ausentes Hoy</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Absent Today</p>
                     <h3 class="text-2xl font-bold text-slate-900 mt-1" id="kpiActiveToday">0</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Colaboradores fuera</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Team members out</p>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
                     <i data-lucide="user-minus" class="w-6 h-6"></i>
@@ -100,9 +100,9 @@
 
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Esta Semana</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">This Week</p>
                     <h3 class="text-2xl font-bold text-slate-900 mt-1" id="kpiThisWeek">0</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Registros en curso</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Active absence records</p>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
                     <i data-lucide="calendar" class="w-6 h-6"></i>
@@ -111,9 +111,9 @@
 
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Registros</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Records</p>
                     <h3 class="text-2xl font-bold text-slate-900 mt-1" id="kpiTotal">0</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">Base de datos</p>
+                    <p class="text-xs text-slate-400 mt-0.5">Database entries</p>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                     <i data-lucide="palmtree" class="w-6 h-6"></i>
@@ -122,7 +122,7 @@
 
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
                 <div>
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Ausencias por OU Hoy</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Today's OU Absences</p>
                     <div class="flex gap-2 mt-2" id="kpiOuBadges"></div>
                 </div>
                 <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
@@ -131,11 +131,12 @@
             </div>
         </div>
 
+        <!-- Filters & Navigation Tabs -->
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
             <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
                 <!-- OU Filters -->
                 <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200 text-xs font-medium">
-                    <button onclick="setOuFilter('ALL')" id="filterOuAll" class="ou-filter-btn px-3 py-1.5 rounded-lg bg-white text-slate-800 shadow-sm transition-all">Todas</button>
+                    <button onclick="setOuFilter('ALL')" id="filterOuAll" class="ou-filter-btn px-3 py-1.5 rounded-lg bg-white text-slate-800 shadow-sm transition-all">All OUs</button>
                     <button onclick="setOuFilter('BR')" id="filterOuBR" class="ou-filter-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all">BR</button>
                     <button onclick="setOuFilter('MX')" id="filterOuMX" class="ou-filter-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all">MX</button>
                     <button onclick="setOuFilter('LATAM')" id="filterOuLATAM" class="ou-filter-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all">LATAM</button>
@@ -143,18 +144,18 @@
 
                 <!-- Reason Filter -->
                 <select id="reasonFilter" onchange="renderAllViews()" class="text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500">
-                    <option value="ALL">Todos los motivos</option>
-                    <option value="Vacaciones">Vacaciones</option>
-                    <option value="Día Personal">Día Personal</option>
-                    <option value="Licencia Médica">Licencia Médica</option>
-                    <option value="Formación">Formación</option>
-                    <option value="Otro">Otro</option>
+                    <option value="ALL">All Reasons</option>
+                    <option value="Vacation">Vacation</option>
+                    <option value="Personal Day">Personal Day</option>
+                    <option value="Medical Leave">Medical Leave</option>
+                    <option value="Training">Training</option>
+                    <option value="Other">Other</option>
                 </select>
 
                 <!-- Search Input -->
                 <div class="relative flex-1 sm:w-52">
                     <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400"></i>
-                    <input type="text" id="searchInput" onkeyup="renderAllViews()" placeholder="Buscar por colaborador o backup..." class="w-full text-xs pl-8 pr-3 py-2 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <input type="text" id="searchInput" onkeyup="renderAllViews()" placeholder="Search employee or backup..." class="w-full text-xs pl-8 pr-3 py-2 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500">
                 </div>
             </div>
 
@@ -162,15 +163,15 @@
             <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-medium w-full md:w-auto justify-center">
                 <button onclick="switchTab('weekly')" id="tabBtnWeekly" class="tab-btn flex-1 md:flex-none px-4 py-1.5 rounded-lg bg-white text-sky-700 font-semibold shadow-sm flex items-center justify-center gap-2">
                     <i data-lucide="calendar-days" class="w-4 h-4"></i>
-                    <span>Vista Semanal</span>
+                    <span>Weekly View</span>
                 </button>
                 <button onclick="switchTab('monthly')" id="tabBtnMonthly" class="tab-btn flex-1 md:flex-none px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 flex items-center justify-center gap-2">
                     <i data-lucide="calendar-range" class="w-4 h-4"></i>
-                    <span>Vista Mensual</span>
+                    <span>Monthly View</span>
                 </button>
                 <button onclick="switchTab('list')" id="tabBtnList" class="tab-btn flex-1 md:flex-none px-4 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 flex items-center justify-center gap-2">
                     <i data-lucide="list" class="w-4 h-4"></i>
-                    <span>Listado Detallado</span>
+                    <span>Detailed List</span>
                 </button>
             </div>
         </div>
@@ -179,16 +180,16 @@
             <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-slate-100 pb-4">
                 <div>
                     <h2 class="font-bold text-slate-800 flex items-center gap-2">
-                        <i data-lucide="chart-no-axes-gantt" class="w-5 h-5 text-sky-600"></i> Gantt Semanal de Ausencias
+                        <i data-lucide="chart-no-axes-gantt" class="w-5 h-5 text-sky-600"></i> Weekly Gantt Timeline (Mon - Fri)
                     </h2>
-                    <p class="text-xs text-slate-500" id="weeklyRangeText">Cargando fechas...</p>
+                    <p class="text-xs text-slate-500" id="weeklyRangeText">Loading dates...</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="changeWeek(-1)" class="p-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 text-xs flex items-center gap-1">
                         <i data-lucide="chevron-left" class="w-4 h-4"></i>
                     </button>
                     <button onclick="resetToCurrentWeek()" class="px-3 py-1.5 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-700 text-xs font-medium">
-                        Esta Semana
+                        This Week
                     </button>
                     <button onclick="changeWeek(1)" class="p-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 text-xs flex items-center gap-1">
                         <i data-lucide="chevron-right" class="w-4 h-4"></i>
@@ -200,7 +201,7 @@
                 <table class="w-full border-collapse min-w-[700px]">
                     <thead>
                         <tr id="weeklyTableHeader" class="bg-slate-50 border-b border-slate-200 text-xs text-slate-600">
-                            <th class="p-3 text-left w-52 font-semibold">Colaborador</th>
+                            <th class="p-3 text-left w-52 font-semibold">Employee</th>
                         </tr>
                     </thead>
                     <tbody id="weeklyTableBody" class="divide-y divide-slate-100 text-xs"></tbody>
@@ -212,54 +213,52 @@
             <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-b border-slate-100 pb-4">
                 <div>
                     <h2 class="font-bold text-slate-800 flex items-center gap-2">
-                        <i data-lucide="calendar" class="w-5 h-5 text-sky-600"></i> Calendario Mensual & Alertas de Cobertura
+                        <i data-lucide="calendar" class="w-5 h-5 text-sky-600"></i> Monthly Business Calendar & Risk Alerts
                     </h2>
                     <p class="text-xs text-slate-500">
-                        <span class="inline-flex items-center text-amber-600 font-medium gap-1"><i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Alerta:</span> cuando 2+ personas de la misma OU coinciden ausentes el mismo día.
+                        <span class="inline-flex items-center text-amber-600 font-medium gap-1"><i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Alert:</span> when 2+ employees from the same OU overlap on a business day.
                     </p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="changeMonth(-1)" class="p-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 text-xs">
                         <i data-lucide="chevron-left" class="w-4 h-4"></i>
                     </button>
-                    <span id="monthlyTitleText" class="text-sm font-semibold text-slate-800 min-w-[140px] text-center">Mes Año</span>
+                    <span id="monthlyTitleText" class="text-sm font-semibold text-slate-800 min-w-[140px] text-center">Month Year</span>
                     <button onclick="changeMonth(1)" class="p-2 border border-slate-200 hover:bg-slate-50 rounded-xl text-slate-600 text-xs">
                         <i data-lucide="chevron-right" class="w-4 h-4"></i>
                     </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-7 gap-px bg-slate-200 rounded-xl overflow-hidden border border-slate-200">
-                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Lun</div>
-                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Mar</div>
-                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Mié</div>
-                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Jue</div>
-                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Vie</div>
-                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Sáb</div>
-                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Dom</div>
+            <div class="grid grid-cols-5 gap-px bg-slate-200 rounded-xl overflow-hidden border border-slate-200">
+                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Mon</div>
+                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Tue</div>
+                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Wed</div>
+                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Thu</div>
+                <div class="bg-slate-100 p-2 text-center font-semibold text-xs text-slate-600">Fri</div>
             </div>
-            <div id="monthlyGrid" class="grid grid-cols-7 gap-px bg-slate-200 rounded-b-xl overflow-hidden border-x border-b border-slate-200"></div>
+            <div id="monthlyGrid" class="grid grid-cols-5 gap-px bg-slate-200 rounded-b-xl overflow-hidden border-x border-b border-slate-200"></div>
         </section>
 
         <section id="viewList" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                 <h2 class="font-bold text-slate-800 flex items-center gap-2">
-                    <i data-lucide="table" class="w-5 h-5 text-sky-600"></i> Registros de Ausencias
+                    <i data-lucide="table" class="w-5 h-5 text-sky-600"></i> Absence Records
                 </h2>
-                <span class="text-xs text-slate-400" id="recordCountText">0 registros</span>
+                <span class="text-xs text-slate-400" id="recordCountText">0 records</span>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse text-xs">
                     <thead>
                         <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-semibold">
-                            <th class="p-3">Colaborador</th>
+                            <th class="p-3">Employee</th>
                             <th class="p-3">OUs</th>
-                            <th class="p-3">Período</th>
-                            <th class="p-3">Días</th>
-                            <th class="p-3">Motivo</th>
-                            <th class="p-3">Backup</th>
-                            <th class="p-3 text-right">Acciones</th>
+                            <th class="p-3">Period</th>
+                            <th class="p-3">Business Days</th>
+                            <th class="p-3">Reason</th>
+                            <th class="p-3">Backups</th>
+                            <th class="p-3 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="listTableBody" class="divide-y divide-slate-100 text-slate-700"></tbody>
@@ -269,11 +268,12 @@
 
     </main>
 
+    <!-- Absence Form Modal -->
     <div id="absenceModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-lg overflow-hidden transform transition-all">
             <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
                 <h3 class="font-bold text-slate-800 text-base flex items-center gap-2" id="modalTitle">
-                    <i data-lucide="calendar-plus" class="w-5 h-5 text-sky-600"></i> Registrar Ausencia o Vacaciones
+                    <i data-lucide="calendar-plus" class="w-5 h-5 text-sky-600"></i> Register Absence or Vacation
                 </h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
                     <i data-lucide="x" class="w-5 h-5"></i>
@@ -285,41 +285,41 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Colaborador <span class="text-rose-500">*</span></label>
-                        <input type="text" id="collaboratorName" required placeholder="Ej. Ana Martínez" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Employee <span class="text-rose-500">*</span></label>
+                        <input type="text" id="collaboratorName" required placeholder="e.g., Ana Martinez" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Motivo <span class="text-rose-500">*</span></label>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Reason <span class="text-rose-500">*</span></label>
                         <select id="absenceReason" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
-                            <option value="Vacaciones">Vacaciones</option>
-                            <option value="Día Personal">Día Personal</option>
-                            <option value="Licencia Médica">Licencia Médica</option>
-                            <option value="Formación">Formación</option>
-                            <option value="Otro">Otro</option>
+                            <option value="Vacation">Vacation</option>
+                            <option value="Personal Day">Personal Day</option>
+                            <option value="Medical Leave">Medical Leave</option>
+                            <option value="Training">Training</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Fecha Inicio <span class="text-rose-500">*</span></label>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Start Date <span class="text-rose-500">*</span></label>
                         <input type="date" id="startDate" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-1">Fecha Fin <span class="text-rose-500">*</span></label>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">End Date <span class="text-rose-500">*</span></label>
                         <input type="date" id="endDate" required class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
                     </div>
                 </div>
 
                 <!-- OUs Selection -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">OUs Afectadas <span class="text-rose-500">*</span></label>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Affected OUs <span class="text-rose-500">*</span></label>
                     <div class="flex gap-4 items-center bg-slate-50 p-2.5 rounded-xl border border-slate-200">
                         <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 font-medium cursor-pointer">
-                            <input type="checkbox" name="ous" value="BR" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500"> BR (Brasil)
+                            <input type="checkbox" name="ous" value="BR" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500"> BR (Brazil)
                         </label>
                         <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 font-medium cursor-pointer">
-                            <input type="checkbox" name="ous" value="MX" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500"> MX (México)
+                            <input type="checkbox" name="ous" value="MX" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500"> MX (Mexico)
                         </label>
                         <label class="inline-flex items-center gap-1.5 text-xs text-slate-700 font-medium cursor-pointer">
                             <input type="checkbox" name="ous" value="LATAM" class="rounded border-slate-300 text-sky-600 focus:ring-sky-500"> LATAM
@@ -327,33 +327,34 @@
                     </div>
                 </div>
 
-                <!-- Backup Selection -->
+                <!-- Backups Selection -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Backup(s) Asignados</label>
-                    <input type="text" id="backupsInput" placeholder="Ej. Carlos Ruiz, Mariana Lima (Separados por coma)" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
-                    <p class="text-[10px] text-slate-400 mt-1">Escribe los nombres separados por coma.</p>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Assigned Backup(s)</label>
+                    <input type="text" id="backupsInput" placeholder="e.g., Carlos Ruiz, Mariana Lima (Comma separated)" class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <p class="text-[10px] text-slate-400 mt-1">Separate multiple names with commas.</p>
                 </div>
 
                 <!-- Notes -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Notas / Observaciones</label>
-                    <textarea id="absenceNotes" rows="2" placeholder="Detalles de entregas de pendientes o guardias..." class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500"></textarea>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Notes / Remarks</label>
+                    <textarea id="absenceNotes" rows="2" placeholder="Handovers, emergency contacts, duty details..." class="w-full text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500"></textarea>
                 </div>
 
                 <div class="pt-3 border-t border-slate-100 flex justify-end gap-2">
-                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition-colors shadow-sm">Guardar Registro</button>
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
+                    <button type="submit" class="px-4 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition-colors shadow-sm">Save Record</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Record Details Modal -->
     <div id="detailsModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-xl border border-slate-100 w-full max-w-md overflow-hidden p-6 space-y-4">
             <div class="flex justify-between items-start border-b border-slate-100 pb-3">
                 <div>
                     <span id="detailBadgeReason" class="px-2.5 py-0.5 text-[10px] rounded-full font-bold uppercase tracking-wider">Reason</span>
-                    <h3 id="detailName" class="text-lg font-bold text-slate-900 mt-1">Nombre</h3>
+                    <h3 id="detailName" class="text-lg font-bold text-slate-900 mt-1">Name</h3>
                 </div>
                 <button onclick="closeDetailsModal()" class="text-slate-400 hover:text-slate-600">
                     <i data-lucide="x" class="w-5 h-5"></i>
@@ -363,41 +364,41 @@
             <div class="space-y-3 text-xs text-slate-600">
                 <div class="flex items-center gap-2">
                     <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
-                    <span class="font-medium text-slate-700">Período:</span>
+                    <span class="font-medium text-slate-700">Period:</span>
                     <span id="detailDates">--</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <i data-lucide="globe" class="w-4 h-4 text-slate-400"></i>
-                    <span class="font-medium text-slate-700">OUs Afectadas:</span>
+                    <span class="font-medium text-slate-700">Affected OUs:</span>
                     <span id="detailOus" class="flex gap-1"></span>
                 </div>
                 <div class="flex items-center gap-2">
                     <i data-lucide="user-check" class="w-4 h-4 text-slate-400"></i>
-                    <span class="font-medium text-slate-700">Backup:</span>
+                    <span class="font-medium text-slate-700">Backups:</span>
                     <span id="detailBackups" class="font-medium text-slate-800">--</span>
                 </div>
                 <div id="detailNotesBox" class="bg-slate-50 p-3 rounded-xl border border-slate-200 mt-2">
-                    <p class="font-medium text-slate-700 mb-0.5">Notas:</p>
-                    <p id="detailNotes" class="text-slate-600 italic">Sin observaciones.</p>
+                    <p class="font-medium text-slate-700 mb-0.5">Notes:</p>
+                    <p id="detailNotes" class="text-slate-600 italic">No notes provided.</p>
                 </div>
             </div>
 
             <div class="pt-2 flex justify-end gap-2">
-                <button id="btnEditRecord" class="px-3 py-1.5 text-xs text-sky-700 hover:bg-sky-50 rounded-lg border border-sky-200">Editar</button>
-                <button onclick="closeDetailsModal()" class="px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg">Cerrar</button>
+                <button id="btnEditRecord" class="px-3 py-1.5 text-xs text-sky-700 hover:bg-sky-50 rounded-lg border border-sky-200">Edit</button>
+                <button onclick="closeDetailsModal()" class="px-3 py-1.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg">Close</button>
             </div>
         </div>
     </div>
 
     <script>
-        const STORAGE_KEY = 'team_vacation_tracker_app_v2';
+        const STORAGE_KEY = 'team_vacation_tracker_app_v3_en';
 
         const REASON_STYLES = {
-            'Vacaciones': { bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-300' },
-            'Día Personal': { bg: 'bg-indigo-100', text: 'text-indigo-800', border: 'border-indigo-300' },
-            'Licencia Médica': { bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-300' },
-            'Formación': { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-300' },
-            'Otro': { bg: 'bg-slate-100', text: 'text-slate-800', border: 'border-slate-300' }
+            'Vacation': { bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-300' },
+            'Personal Day': { bg: 'bg-indigo-100', text: 'text-indigo-800', border: 'border-indigo-300' },
+            'Medical Leave': { bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-300' },
+            'Training': { bg: 'bg-amber-100', text: 'text-amber-800', border: 'border-amber-300' },
+            'Other': { bg: 'bg-slate-100', text: 'text-slate-800', border: 'border-slate-300' }
         };
 
         const OU_STYLES = {
@@ -416,42 +417,42 @@
             {
                 id: 'abs-101',
                 name: 'Carlos Mendoza',
-                reason: 'Vacaciones',
+                reason: 'Vacation',
                 startDate: getOffsetDate(-1),
                 endDate: getOffsetDate(4),
                 ous: ['MX', 'LATAM'],
-                backups: ['Lucía Fernández', 'Mateo Silva'],
-                notes: 'Pendientes críticos entregados a Lucía. Estaré sin acceso a correo.'
+                backups: ['Lucia Fernandez', 'Mateo Silva'],
+                notes: 'Critical tasks handed over to Lucia. I will have no email access.'
             },
             {
                 id: 'abs-102',
                 name: 'Beatriz Souza',
-                reason: 'Día Personal',
+                reason: 'Personal Day',
                 startDate: getOffsetDate(1),
                 endDate: getOffsetDate(1),
                 ous: ['BR'],
                 backups: ['Thiago Santos'],
-                notes: 'Trámites personales familiares.'
+                notes: 'Family personal errands.'
             },
             {
                 id: 'abs-103',
-                name: 'Gabriel Gómez',
-                reason: 'Vacaciones',
+                name: 'Gabriel Gomez',
+                reason: 'Vacation',
                 startDate: getOffsetDate(0),
                 endDate: getOffsetDate(5),
                 ous: ['BR', 'MX'],
                 backups: ['Carlos Mendoza'],
-                notes: 'Vacaciones de mitad de año.'
+                notes: 'Mid-year annual vacation.'
             },
             {
                 id: 'abs-104',
                 name: 'Mariana Reyes',
-                reason: 'Licencia Médica',
+                reason: 'Medical Leave',
                 startDate: getOffsetDate(-2),
                 endDate: getOffsetDate(0),
                 ous: ['LATAM'],
                 backups: ['Ana Torres'],
-                notes: 'Reposo médico justificado.'
+                notes: 'Medical rest justification attached.'
             }
         ];
 
@@ -486,7 +487,7 @@
         }
 
         function resetDataToDemo() {
-            if (confirm('¿Restaurar los datos demo iniciales? Se perderán los registros actuales.')) {
+            if (confirm('Restore initial demo data? Current records will be replaced.')) {
                 absences = [...DEMO_DATA];
                 saveToStorage();
                 renderAllViews();
@@ -500,14 +501,33 @@
             return new Date(date.setDate(diff));
         }
 
+        function isWeekend(dateObj) {
+            const day = dateObj.getDay();
+            return day === 0 || day === 6; // 0 = Sunday, 6 = Saturday
+        }
+
         function formatDate(dateStr) {
             if (!dateStr) return '';
             const [y, m, d] = dateStr.split('-');
-            return `${d}/${m}/${y}`;
+            return `${m}/${d}/${y}`;
         }
 
         function isDateInRange(targetDateStr, startDateStr, endDateStr) {
             return targetDateStr >= startDateStr && targetDateStr <= endDateStr;
+        }
+
+        function countBusinessDays(startDateStr, endDateStr) {
+            let count = 0;
+            const cur = new Date(startDateStr + 'T00:00:00');
+            const end = new Date(endDateStr + 'T00:00:00');
+
+            while (cur <= end) {
+                if (!isWeekend(cur)) {
+                    count++;
+                }
+                cur.setDate(cur.getDate() + 1);
+            }
+            return count;
         }
 
         function setOuFilter(ou) {
@@ -577,25 +597,30 @@
         }
 
         function renderKPIs(data) {
-            const todayStr = new Date().toISOString().split('T')[0];
-            const activeToday = data.filter(a => isDateInRange(todayStr, a.startDate, a.endDate)).length;
+            const todayObj = new Date();
+            const todayStr = todayObj.toISOString().split('T')[0];
+            const isTodayWeekend = isWeekend(todayObj);
+
+            const activeToday = isTodayWeekend ? 0 : data.filter(a => isDateInRange(todayStr, a.startDate, a.endDate)).length;
             document.getElementById('kpiActiveToday').textContent = activeToday;
 
             const monday = getMonday(new Date());
-            const sunday = new Date(monday);
-            sunday.setDate(sunday.getDate() + 6);
+            const friday = new Date(monday);
+            friday.setDate(friday.getDate() + 4);
             const monStr = monday.toISOString().split('T')[0];
-            const sunStr = sunday.toISOString().split('T')[0];
+            const friStr = friday.toISOString().split('T')[0];
 
-            const thisWeekCount = data.filter(a => !(a.endDate < monStr || a.startDate > sunStr)).length;
+            const thisWeekCount = data.filter(a => !(a.endDate < monStr || a.startDate > friStr)).length;
             document.getElementById('kpiThisWeek').textContent = thisWeekCount;
 
             document.getElementById('kpiTotal').textContent = data.length;
 
             const ouCounts = { BR: 0, MX: 0, LATAM: 0 };
-            data.filter(a => isDateInRange(todayStr, a.startDate, a.endDate)).forEach(a => {
-                a.ous.forEach(ou => { if (ouCounts[ou] !== undefined) ouCounts[ou]++; });
-            });
+            if (!isTodayWeekend) {
+                data.filter(a => isDateInRange(todayStr, a.startDate, a.endDate)).forEach(a => {
+                    a.ous.forEach(ou => { if (ouCounts[ou] !== undefined) ouCounts[ou]++; });
+                });
+            }
 
             document.getElementById('kpiOuBadges').innerHTML = Object.keys(ouCounts).map(ou => {
                 const isHigh = ouCounts[ou] >= 2;
@@ -614,37 +639,38 @@
             const days = [];
             const weekStart = new Date(currentWeekStartDate);
 
-            for (let i = 0; i < 7; i++) {
+            // Strictly 5 Business Days: Monday to Friday
+            for (let i = 0; i < 5; i++) {
                 const dayDate = new Date(weekStart);
                 dayDate.setDate(weekStart.getDate() + i);
                 days.push(dayDate);
             }
 
-            const endOfWeek = days[6];
+            const friday = days[4];
             document.getElementById('weeklyRangeText').textContent = 
-                `Semana del ${days[0].getDate()} de ${days[0].toLocaleString('es', {month: 'long'})} al ${endOfWeek.getDate()} de ${endOfWeek.toLocaleString('es', {month: 'long'})}, ${endOfWeek.getFullYear()}`;
+                `Week of ${days[0].toLocaleString('en-US', {month: 'short'})} ${days[0].getDate()} to ${friday.toLocaleString('en-US', {month: 'short'})} ${friday.getDate()}, ${friday.getFullYear()}`;
 
-            let headerHTML = `<th class="p-3 text-left w-52 font-semibold text-slate-700 bg-slate-100">Colaborador</th>`;
+            let headerHTML = `<th class="p-3 text-left w-52 font-semibold text-slate-700 bg-slate-100">Employee</th>`;
             days.forEach(day => {
                 const isToday = new Date().toISOString().split('T')[0] === day.toISOString().split('T')[0];
-                const dayName = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][day.getDay()];
+                const dayName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'][day.getDay() - 1];
                 headerHTML += `
                     <th class="p-2 text-center font-medium ${isToday ? 'bg-sky-100 text-sky-800 font-bold' : 'bg-slate-50 text-slate-600'} border-l border-slate-200">
-                        ${dayName} ${day.getDate()}/${day.getMonth()+1}
+                        ${dayName} ${day.getMonth()+1}/${day.getDate()}
                     </th>
                 `;
             });
             headerRow.innerHTML = headerHTML;
 
             const weekStartStr = days[0].toISOString().split('T')[0];
-            const weekEndStr = days[6].toISOString().split('T')[0];
+            const weekEndStr = days[4].toISOString().split('T')[0];
             const weekAbsences = data.filter(a => !(a.endDate < weekStartStr || a.startDate > weekEndStr));
 
             if (weekAbsences.length === 0) {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="8" class="p-8 text-center text-slate-400">
-                            <p>Sin ausencias registradas para esta semana.</p>
+                        <td colspan="6" class="p-8 text-center text-slate-400">
+                            <p>No absences registered for this business week.</p>
                         </td>
                     </tr>
                 `;
@@ -668,7 +694,7 @@
                     const isAbsent = isDateInRange(dayStr, item.startDate, item.endDate);
 
                     if (isAbsent) {
-                        const style = REASON_STYLES[item.reason] || REASON_STYLES['Otro'];
+                        const style = REASON_STYLES[item.reason] || REASON_STYLES['Other'];
                         tbodyHTML += `
                             <td class="p-1 border-l border-slate-200 text-center align-middle">
                                 <div onclick="openDetailsModal('${item.id}')" class="${style.bg} ${style.text} ${style.border} border rounded-xl p-1.5 cursor-pointer shadow-sm hover:scale-[1.02] transition-transform text-left">
@@ -703,24 +729,34 @@
             const month = currentMonthDate.getMonth();
 
             document.getElementById('monthlyTitleText').textContent = 
-                currentMonthDate.toLocaleString('es', { month: 'long', year: 'numeric' }).toUpperCase();
+                currentMonthDate.toLocaleString('en-US', { month: 'long', year: 'numeric' }).toUpperCase();
 
             const firstDay = new Date(year, month, 1);
             const lastDay = new Date(year, month + 1, 0);
 
-            let startingDayIdx = firstDay.getDay() - 1;
-            if (startingDayIdx === -1) startingDayIdx = 6;
+            // Calculate starting offset for Monday-Friday grid
+            let firstDayOfWeek = firstDay.getDay(); // 0 = Sun, 1 = Mon ... 6 = Sat
+            let offsetCells = 0;
+            if (firstDayOfWeek >= 1 && firstDayOfWeek <= 5) {
+                offsetCells = firstDayOfWeek - 1;
+            } else if (firstDayOfWeek === 6) {
+                offsetCells = 0; // Saturday starts on Monday of next block
+            } else if (firstDayOfWeek === 0) {
+                offsetCells = 0; // Sunday
+            }
 
-            const totalDays = lastDay.getDate();
             let gridHTML = '';
 
-            for (let i = 0; i < startingDayIdx; i++) {
+            for (let i = 0; i < offsetCells; i++) {
                 gridHTML += `<div class="bg-slate-50/50 calendar-cell p-1.5"></div>`;
             }
 
             const todayStr = new Date().toISOString().split('T')[0];
 
-            for (let day = 1; day <= totalDays; day++) {
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dateObj = new Date(year, month, day);
+                if (isWeekend(dateObj)) continue; // Strictly skip Saturdays & Sundays
+
                 const dayStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const isToday = dayStr === todayStr;
 
@@ -737,14 +773,14 @@
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-xs font-bold ${isToday ? 'bg-sky-600 text-white w-5 h-5 rounded-full flex items-center justify-center' : 'text-slate-700'}">${day}</span>
                             ${warnings.length > 0 ? `
-                                <span class="text-amber-500 flex items-center gap-0.5 text-[10px] font-bold" title="Alerta: 2+ ausencias en ${warnings.join(', ')}">
+                                <span class="text-amber-500 flex items-center gap-0.5 text-[10px] font-bold" title="Alert: 2+ absences in ${warnings.join(', ')}">
                                     <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
                                 </span>
                             ` : ''}
                         </div>
                         <div class="space-y-1 overflow-y-auto max-h-[80px]">
                             ${dayAbsences.map(item => {
-                                const style = REASON_STYLES[item.reason] || REASON_STYLES['Otro'];
+                                const style = REASON_STYLES[item.reason] || REASON_STYLES['Other'];
                                 return `
                                     <div onclick="openDetailsModal('${item.id}')" class="${style.bg} ${style.text} p-1 rounded-md text-[10px] font-medium truncate cursor-pointer hover:opacity-90 flex items-center justify-between">
                                         <span class="truncate">${item.name}</span>
@@ -767,13 +803,13 @@
 
         function renderListView(data) {
             const tbody = document.getElementById('listTableBody');
-            document.getElementById('recordCountText').textContent = `${data.length} registros`;
+            document.getElementById('recordCountText').textContent = `${data.length} records`;
 
             if (data.length === 0) {
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="7" class="p-8 text-center text-slate-400">
-                            No hay registros de ausencias para mostrar.
+                            No absence records found.
                         </td>
                     </tr>
                 `;
@@ -781,10 +817,8 @@
             }
 
             tbody.innerHTML = data.map(item => {
-                const style = REASON_STYLES[item.reason] || REASON_STYLES['Otro'];
-                const d1 = new Date(item.startDate);
-                const d2 = new Date(item.endDate);
-                const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24)) + 1;
+                const style = REASON_STYLES[item.reason] || REASON_STYLES['Other'];
+                const bDays = countBusinessDays(item.startDate, item.endDate);
 
                 return `
                     <tr class="hover:bg-slate-50 transition-colors">
@@ -795,13 +829,13 @@
                             </div>
                         </td>
                         <td class="p-3 text-slate-600">${formatDate(item.startDate)} - ${formatDate(item.endDate)}</td>
-                        <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-100 font-semibold">${diffDays} día(s)</span></td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-100 font-semibold">${bDays} business day(s)</span></td>
                         <td class="p-3">
                             <span class="px-2.5 py-0.5 text-[10px] rounded-full font-semibold ${style.bg} ${style.text}">
                                 ${item.reason}
                             </span>
                         </td>
-                        <td class="p-3 text-slate-600">${item.backups.join(', ') || 'Ninguno'}</td>
+                        <td class="p-3 text-slate-600">${item.backups.join(', ') || 'None'}</td>
                         <td class="p-3 text-right">
                             <button onclick="editAbsence('${item.id}')" class="p-1 text-sky-600 hover:bg-sky-50 rounded-md mr-1">
                                 <i data-lucide="edit-3" class="w-4 h-4"></i>
@@ -823,7 +857,7 @@
             if (editId) {
                 const item = absences.find(a => a.id === editId);
                 if (item) {
-                    document.getElementById('modalTitle').innerHTML = `<i data-lucide="edit-3" class="w-5 h-5 text-sky-600"></i> Editar Ausencia`;
+                    document.getElementById('modalTitle').innerHTML = `<i data-lucide="edit-3" class="w-5 h-5 text-sky-600"></i> Edit Absence`;
                     document.getElementById('absenceId').value = item.id;
                     document.getElementById('collaboratorName').value = item.name;
                     document.getElementById('absenceReason').value = item.reason;
@@ -837,7 +871,7 @@
                     });
                 }
             } else {
-                document.getElementById('modalTitle').innerHTML = `<i data-lucide="calendar-plus" class="w-5 h-5 text-sky-600"></i> Registrar Ausencia o Vacaciones`;
+                document.getElementById('modalTitle').innerHTML = `<i data-lucide="calendar-plus" class="w-5 h-5 text-sky-600"></i> Register Absence or Vacation`;
                 document.getElementById('absenceId').value = '';
                 const today = new Date().toISOString().split('T')[0];
                 document.getElementById('startDate').value = today;
@@ -863,13 +897,13 @@
             const notes = document.getElementById('absenceNotes').value.trim();
 
             if (startDate > endDate) {
-                alert('La fecha de fin no puede ser anterior a la fecha de inicio.');
+                alert('End date cannot be earlier than start date.');
                 return;
             }
 
             const selectedOus = Array.from(document.querySelectorAll('input[name="ous"]:checked')).map(cb => cb.value);
             if (selectedOus.length === 0) {
-                alert('Selecciona al menos una OU afectada (BR, MX o LATAM).');
+                alert('Please select at least one affected OU (BR, MX, or LATAM).');
                 return;
             }
 
@@ -896,7 +930,7 @@
         }
 
         function deleteAbsence(id) {
-            if (confirm('¿Eliminar esta ausencia?')) {
+            if (confirm('Delete this absence record?')) {
                 absences = absences.filter(a => a.id !== id);
                 saveToStorage();
                 closeDetailsModal();
@@ -908,21 +942,21 @@
             const item = absences.find(a => a.id === id);
             if (!item) return;
 
-            const style = REASON_STYLES[item.reason] || REASON_STYLES['Otro'];
+            const style = REASON_STYLES[item.reason] || REASON_STYLES['Other'];
 
             const badge = document.getElementById('detailBadgeReason');
             badge.textContent = item.reason;
             badge.className = `px-2.5 py-0.5 text-[10px] rounded-full font-bold uppercase tracking-wider ${style.bg} ${style.text}`;
 
             document.getElementById('detailName').textContent = item.name;
-            document.getElementById('detailDates').textContent = `${formatDate(item.startDate)} al ${formatDate(item.endDate)}`;
+            document.getElementById('detailDates').textContent = `${formatDate(item.startDate)} to ${formatDate(item.endDate)}`;
             
             document.getElementById('detailOus').innerHTML = item.ous.map(ou => `
                 <span class="px-1.5 py-0.2 text-[10px] font-bold rounded border ${OU_STYLES[ou] || ''}">${ou}</span>
             `).join('');
 
-            document.getElementById('detailBackups').textContent = item.backups.join(', ') || 'Sin backup';
-            document.getElementById('detailNotes').textContent = item.notes || 'Sin notas adicionales.';
+            document.getElementById('detailBackups').textContent = item.backups.join(', ') || 'No backup assigned';
+            document.getElementById('detailNotes').textContent = item.notes || 'No additional notes.';
 
             document.getElementById('btnEditRecord').onclick = () => editAbsence(item.id);
 
@@ -950,7 +984,7 @@
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(absences, null, 2));
             const dlAnchor = document.createElement('a');
             dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", `vacaciones_equipo_${new Date().toISOString().split('T')[0]}.json`);
+            dlAnchor.setAttribute("download", `team_vacation_data_${new Date().toISOString().split('T')[0]}.json`);
             document.body.appendChild(dlAnchor);
             dlAnchor.click();
             dlAnchor.remove();
@@ -972,12 +1006,12 @@
                         absences = imported;
                         saveToStorage();
                         renderAllViews();
-                        alert('¡Datos importados correctamente!');
+                        alert('Data imported successfully!');
                     } else {
-                        alert('El archivo no contiene un formato válido.');
+                        alert('Invalid JSON structure.');
                     }
                 } catch (err) {
-                    alert('Error al leer el archivo JSON.');
+                    alert('Error parsing JSON file.');
                 }
             };
             reader.readAsText(file);
